@@ -54,10 +54,10 @@ class TypingGameWord(pygame.sprite.Sprite):
         if old_top < height/4 and self.rect.top >= height/4:
             extra_words.append(spawn_word())
         if self.rect.bottom >= height:
-            lose()
-    def lose():
-            print "YOU LOSE! Your score is:",score
             running = False
+    
+    def lose_text(): # lose text
+        lose_text = ("YOU LOSE! Your score is: " + str(score))
 
 running = True
 speed = 10
@@ -68,8 +68,13 @@ extra_words = []
 wordfile.close()
 score = 0
 
-score_font = pygame.font.Font("score_font.ttf",60)
+score_font = pygame.font.Font("score_font.TTF",60)
 
+# set font and color for lose text - silight
+fontFill = pygame.font.Font("score_font.TTF",60)
+textSurfaceLose = fontFill.render(lose_text(), True, (120, 255, 120), (0,0,0))
+loseTextRect = textSurfaceLose.get_rect()
+loseTextRect.center = (200, 20)
 
 background = pygame.image.load("background.png").convert()
 
@@ -108,5 +113,6 @@ while running: #the main loop
         screen.blit(i.image, i.rect)
     pygame.draw.line(screen,(0,255,0),(width/2, height),(currentword.rect.left+7, currentword.rect.bottom),14)
     screen.blit(currentword.image, currentword.rect) #draw the word
+    screen.blit(textSurfaceLose, loseTextRect)# draw lose message - silight
     pygame.display.flip() #apply the changes
 pygame.quit() #fix the program breaking in IDLE
