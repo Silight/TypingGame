@@ -13,6 +13,18 @@ def spawn_word():
     wordStr = random.choice(words).strip()
     return TypingGameWord(wordStr)
 
+def init(): # resets all the values in the game. 
+    global running, speed, wordfile, words, currentword, extra_words, score
+    running = True
+    speed = 10  
+    wordfile = open('words.txt', 'r')
+    words = wordfile.readlines()
+    currentword = spawn_word()
+    extra_words = []
+    wordfile.close()
+    score = 0
+ 
+
 def intro(): # Introduction to the game. Gives instructions on how to play - silight
     msg = """
                             Welcome to WORD BLASTER!
@@ -119,20 +131,13 @@ class TypingGameWord(pygame.sprite.Sprite):
             title = "Game Over"
             choice = ynbox(msg, title)
             if choice == 1: # reset the game. Object is still detected at the bottom of the screen.  - silight
-                speed = 0
-                score = 0
-                score_surf = score_font.render("SCORE:"+str(score), True, (0,255,0))
-                screen.fill((0,0,0)) #clears the screen
-                screen.blit(background,(0,0))
-                screen.blit(score_surf,(0,530))
-                pygame.display.flip()
-                intro()
+                init()
             else:
                 running = False # Exits game - silight
 
 
 running = True
-speed = 10
+speed = 10 
 wordfile = open('words.txt', 'r')
 words = wordfile.readlines()
 currentword = spawn_word()
